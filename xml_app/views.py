@@ -8,12 +8,15 @@ from xml_app.models import *
 # libs de terceiros
 from datetime import datetime
 import pandas as pd
-import locale
 import uuid
 import io
 
 
-locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+def real_br_money_mask(my_value):
+    a = '{:,.2f}'.format(float(my_value))
+    b = a.replace(',','v')
+    c = b.replace('.',',')
+    return f"R$ {c.replace('v','.')}"
 
 def get_ip_and_city(request):
     """ 
@@ -21,9 +24,10 @@ def get_ip_and_city(request):
         A fim de registrar o conhecimento dos termos.
         * Específico para hospedagem na vercel
     """
+    print(request.META) # TEMPORARIAMENTE PARA VER A CITY
 
     ip_address = request.META.get('REMOTE_ADDR') # IP Do usuário
-    city = request.META.get('HTTP_X_VERCEL_IP_CITY') # Cidade do IP do usuário
+    city = ""#request.META.get('HTTP_X_VERCEL_IP_CITY') # Cidade do IP do usuário
 
     if ip_address and city:
         return ip_address, city
@@ -135,8 +139,8 @@ def tratar_xml(request):
             emitente_nfe = xml_read.emitente()
 
             for produto in produtos_nfe[0]:
-                produto['vUnCom_pdi'] = locale.currency(produto['vUnCom_pdi'], grouping=True)
-                produto['vProd_pdi'] = locale.currency(produto['vProd_pdi'], grouping=True)
+                produto['vUnCom_pdi'] = real_br_money_mask(produto['vUnCom_pdi'])
+                produto['vProd_pdi'] = real_br_money_mask(produto['vProd_pdi'])
 
             context = {
                 'valid': True,
@@ -148,7 +152,7 @@ def tratar_xml(request):
                 'emissao': datetime.fromisoformat(dados_nfe['dhEmi_ide'][0:10]),
                 'produtos': produtos_nfe[0],
                 'quantidade_produtos': len(produtos_nfe[0]),
-                'total_produtos': locale.currency(produtos_nfe[1], grouping=True),
+                'total_produtos': real_br_money_mask(produtos_nfe[1]),
             }
 
             response = render(request, 'xml_app/resultado.html', context)
