@@ -140,7 +140,7 @@ def tratar_xml(request):
 
             context = {
                 'valid': True,
-                'msg': f'Extração da NFe nº{dados_nfe['nNF_ide']}  realizada com sucesso!',
+                'msg': f"Extração da NFe nº{dados_nfe['nNF_ide']}  realizada com sucesso!",
                 'razao_emitente': emitente_nfe['xNome_emit'],
                 'cnpj_emitente': emitente_nfe['CNPJ_emit'],
                 'fantazia_emitente': emitente_nfe['xFant_emit'],
