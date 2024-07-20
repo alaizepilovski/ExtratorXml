@@ -28,7 +28,7 @@ def get_ip_and_city(request):
     ip_real = request.META.get('HTTP_X_FORWARDED_FOR') # Cidade do IP do usuário
 
     if ip_address and ip_real:
-        return ip_address, ip_real
+        return ip_real, ip_address
     else:
         return ip_address, None
 
