@@ -24,13 +24,11 @@ def get_ip_and_city(request):
         A fim de registrar o conhecimento dos termos.
         * Específico para hospedagem na vercel
     """
-    print(request.META) # TEMPORARIAMENTE PARA VER A CITY
-
     ip_address = request.META.get('REMOTE_ADDR') # IP Do usuário
-    city = ""#request.META.get('HTTP_X_VERCEL_IP_CITY') # Cidade do IP do usuário
+    ip_real = request.META.get('HTTP_X_FORWARDED_FOR') # Cidade do IP do usuário
 
-    if ip_address and city:
-        return ip_address, city
+    if ip_address and ip_real:
+        return ip_address, ip_real
     else:
         return ip_address, None
 
@@ -100,11 +98,13 @@ def termos_condicoes(request):
 def importar_xml(request):
     ip = get_ip_and_city(request)
     try:
-        termo= PrivacidadeConsentimento.objects.get(ip=ip[0])
-        termo_aceito = termo.accepted
+        termo = PrivacidadeConsentimento.objects.get(ip=ip[0])
+        if termo.accepted:
+            termo_aceito = True
     except PrivacidadeConsentimento.DoesNotExist:
         termo_aceito = False
-    response = render(request, 'xml_app/importar.html', {'termo_aceito':termo_aceito})
+
+    response = render(request, 'xml_app/importar.html', {'termo_aceito': termo_aceito})
 
     session_xml = request.COOKIES.get('session_xml')
     if session_xml:
@@ -112,6 +112,7 @@ def importar_xml(request):
             XmlTemp.objects.get(sessao=session_xml).delete()
         except XmlTemp.DoesNotExist:
             ...
+
     response.delete_cookie('session_xml')
 
     return response
