@@ -154,6 +154,7 @@ def tratar_xml(request):
                 'produtos': produtos_nfe[0],
                 'quantidade_produtos': len(produtos_nfe[0]),
                 'total_produtos': real_br_money_mask(produtos_nfe[1]),
+                'termo_aceito': True,
             }
 
             response = render(request, 'xml_app/resultado.html', context)
@@ -188,6 +189,7 @@ def tratar_xml(request):
         except Exception as e:
             context = {
                         'valid': False,
+                        'termo_aceito': True,
                         'msg': f'XML Inválido, por favor confira se realmente é um xml de NFe! {e}',
                         }
             return render(request, 'xml_app/importar.html', context)
@@ -227,9 +229,10 @@ def gerar_excel(request):
 
         context = {
                     'valid': False,
+                    'termo_aceito': True,
                     'msg': erro
                     }
         
         return render(request, 'xml_app/importar.html', context)
 
-    return render(request, 'xml_app/importar.html', {'valid': True, 'msg':'Sem dados para geração do relatório'})
+    return render(request, 'xml_app/importar.html', {'valid': True, 'msg':'Sem dados para geração do relatório', 'termo_aceito': True})
