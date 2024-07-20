@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 # Funções internas
 from xml_app.extrator import Ler_XML
-from . models import XmlTemp, PrivacidadeConsentimento
+from xml_app.models import *
 # libs de terceiros
 from datetime import datetime
 import pandas as pd
