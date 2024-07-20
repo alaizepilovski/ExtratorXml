@@ -1,0 +1,85 @@
+{% extends 'xml_app/base.html' %}
+{% load static %}
+
+{% block 'main' %}
+
+<div class="card m-3">
+    <h5 class="card-header text-center">{{msg}}</h5>
+    <div class="card-body">
+        {{dados_nfe}}
+        <div class="row">
+            <div class="col-md">
+                <div>
+                    <span class="fw-bold">Emissão:</span> {{emissao|date:"d/m/Y"}}
+                </div>
+                <div>
+                    <span class="fw-bold">Emitente:</span> {{razao_emitente}} - {{cnpj_emitente}}
+                </div>
+                <div>
+                    <span class="fw-bold">Chave Nfe:</span> {{chave}}
+                </div>
+
+            </div>
+        </div>
+        <p>
+
+        </p>
+        
+        <div class="d-flex align-items-center justify-content-evenly m-3">
+            <div class="">
+                <a class="btn btn-success btn-sm fw-bold" href="{% url 'gerar_excel' %}">Exportar para Excel</a>
+               </div>
+            <div class="">
+             <a class="btn btn-warning btn-sm fw-bold" href="{% url 'importar_xml' %}">Extrair outro XML</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <span class="fw-bold">Quantidade de Produtos:</span> {{quantidade_produtos}}
+            <span class="fw-bold">Total dos Produtos:</span> {{total_produtos}}
+        </div>
+
+        <!-- resultado -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover border">
+                <thead class="table-secondary">
+                    <th>código</th>
+                    <th>Nome</th>
+                    <th>NCM</th>
+                    <th>CFOP</th>
+                    <th>Un</th>
+                    <th>Qtd</th>
+                    <th class="text-nowrap">Valor Unitário</th>
+                    <th class="text-nowrap">Valor Total</th>
+                </thead>
+                <tbody>
+                    {% for produto in produtos %}
+                    <tr>
+                        <td>{{produto.cProd_pdi}}</td>
+                        <td>{{produto.xProd_pdi}}</td>
+                        <td>{{produto.NCM_pdi}}</td>
+                        <td>{{produto.CFOP_pdi}}</td>
+                        <td class="text-nowrap">{{produto.uCom_pdi}}</td>
+                        <td class="text-nowrap">{{produto.qCom_pdi}}</td>
+                        <td class="text-nowrap">{{produto.vUnCom_pdi}}</td>
+                        <td class="text-nowrap">{{produto.vProd_pdi}}</td>
+                    </tr>
+                      
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <!-- mensagem de erro -->
+    <div class="text-center m-2">
+        <p id="message"></p>
+        <div  id="loading" class="text-center" style="display: none;">
+            <img src="{% static 'img/spinner.svg' %}" alt="loading" width="32" height="32">
+            <p>por favor aguarde!</p>
+        </div>
+    </div>
+  </div>
+
+{% endblock 'main' %}

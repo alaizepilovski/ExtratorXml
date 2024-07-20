@@ -1,0 +1,32 @@
+.upload-container {
+    position: relative;
+}
+.upload-container input {
+    border: 1px solid #92b0b3;
+    background: #ddfdff;
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    padding: 50px 50px 50px 50px;
+    text-align: center !important;
+    width: 500px;
+}
+.upload-container input:hover {
+    background: #ddd;
+}   
+.upload-container:before {
+    position: absolute;
+    bottom: 50px;
+    left: 245px;
+    color: #3f8188;
+    font-weight: 900;
+}   
+.upload-btn {
+    margin-left: 300px;
+    padding: 7px 20px;
+}
+
+@media print {
+    table {
+      break-before: page;
+    }
+  }
