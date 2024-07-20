@@ -176,6 +176,7 @@ def tratar_xml(request):
                         sessao_key = uuid.uuid4()
                         response.set_cookie("session_xml", sessao_key)
                         session_xml = XmlTemp()
+                        session_xml.sessao = sessao_key
 
                     session_xml.xml = xml_read.produtos()
                     session_xml.chave = chave_nfe
