@@ -27,6 +27,15 @@ def get_ip_and_city(request):
     ip_address = request.META.get('REMOTE_ADDR') # IP Do usuário
     ip_real = request.META.get('HTTP_X_FORWARDED_FOR') # Cidade do IP do usuário
 
+    try:
+        ip_real_split = str(ip_real).split(",")
+
+        if len(ip_real) == 2:
+            ip_real = ip_real_split[0]
+            
+    except Exception as e:
+        print(e)
+
     if ip_address and ip_real:
         return ip_real, ip_address
     else:
