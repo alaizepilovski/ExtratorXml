@@ -25,23 +25,21 @@ def get_ip_and_city(request):
         * Específico para hospedagem na vercel
     """
     ip_address = request.META.get('REMOTE_ADDR') # IP Do usuário
-    ip_real = request.META.get('HTTP_X_FORWARDED_FOR') # Cidade do IP do usuário
-    print(request.META, "\n")
-    print(ip_real)
+    ip_real = request.META.get('HTTP_X_FORWARDED_FOR') # IP Real
+    ip = ''
+
     try:
         ip_real_split = str(ip_real).split(",")
-        print(ip_real_split)
-
-        if len(ip_real) == 2:
-            ip_real = ip_real_split[0]
-            
+        ip = ip_real_split[0]
+        
     except Exception as e:
+        ip = ip_real
         print(e)
 
     if ip_address and ip_real:
-        return ip_real, ip_address
+        return ip, ip_address
     else:
-        return ip_address, None
+        return ip_address, ip
 
 def clear_xmls():
     """ Caso algum XMl não seja excluido essa função limpará após uma hora"""
