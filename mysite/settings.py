@@ -29,11 +29,11 @@ SECRET_KEY = os.environ["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'xml.aksi.com.br']
+ALLOWED_HOSTS = ['127.0.0.1', 'xml.aksi.com.br', 'xml.aksitecnologia.com.br']
 
 # FORM SUBMISSION
 # Comment out the following line and place your railway URL, and your production URL in the array.
-CSRF_TRUSTED_ORIGINS = ['https://xml.aksi.com.br']
+CSRF_TRUSTED_ORIGINS = ['https://xml.aksi.com.br', 'https://xml.aksitecnologia.com.br']
 
 # Application definition
 
